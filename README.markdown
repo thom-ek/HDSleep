@@ -11,7 +11,4 @@ Changes in v1.5:
 
 Copyright
 ---------
-MiniCD source is provided AS IS. You can use it in any form.
-Some parts of source code comes from MCDPlayer written by Boris Jakubaschk and
-SCDPlayer written by Juan J. García de Soria - both software are made for Amiga OS.
-
+HDSleep source is provided AS IS. You can use it in any form.
