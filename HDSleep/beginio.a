@@ -1,0 +1,84 @@
+	SECTION assembly,code
+
+	XREF _OldBeginIO
+	XREF _Computer
+
+	include "lvo/exec_lib.i"
+
+;
+; Call scsi.device BeginIO()
+; void CallBeginIO(struct register __a1 struct IORequest *);
+;
+
+	XDEF _CallBeginIO
+_CallBeginIO:
+	move.l _OldBeginIO,-(sp)
+	rts
+
+;
+; Turn unit D0 to sleep
+; void HDDriveOff(register __d0 UBYTE HDUnit);
+;
+
+	XDEF _HDDriveOff
+_HDDriveOff:
+	move.l	(4).w,a0	; Get ExecBase
+	jsr	_LVOForbid(a0)
+	jsr	ChangeUnit	; ChangeUnit();
+	cmp.l	#1,_Computer	; if 1 then a4000
+	beq	a4000a
+	cmp.l	#2,_Computer	; if 1 then elsat
+	beq	elsata
+	lea	$da201e,a0	; HD command register (A1200)
+	bra	skip
+elsata:	lea	$eb8f00,a0	; HD command register (ELSAT HD)
+	bra skip
+a4000a:	lea	$dd203e,a0	; HD command register (A4000)
+skip:	move.b	#$e0,(a0)	; Standby Immediate
+	move.b	#$e3,(a0)	; Idle
+OffEnd:	move.l	(4).w,a0	; Get ExecBase
+	jsr	_LVOPermit(a0)	; Permit();
+	rts
+
+;
+; Check unit D0 for hd present (does it work?)
+; UBYTE CheckHD(register __d0 UBYTE HDUnit);
+;
+
+	XDEF _CheckHD
+_CheckHD:
+	move.l	(4).w,a0	; Get ExecBase
+	jsr	_LVOForbid(a0)
+	jsr	ChangeUnit	; ChangeUnit();
+	clr.b	d0
+	tst.l	_Computer		; if 1 then a4000
+	beq	a4000b
+	cmpi.b	#$50,($da201e)	; HD status register (A1200)
+	seq	d0		; if(DrivePresent) d0=TRUE;
+	bra	skip2
+a4000b:	cmpi.b	#$50,($dd203e)	; HD status register (A4000)
+	seq	d0		; if(DrivePresent) d0=TRUE;
+skip2:	move.l	(4).w,a0	; Get ExecBase
+	jsr	_LVOPermit(a0)
+	rts
+
+;
+; Change to Unit D0
+; void ChangeUnit(register __d0 UBYTE HDUnit);
+;
+
+ChangeUnit:
+	asl.l	#4,d0
+	ori.w	#$a0,d0
+	cmp.l	#1,_Computer	; if 1 then a4000
+	beq	a4000c
+	cmp.l	#2,_Computer	; if 2 then ELSAT
+	beq	elsatc
+	move.b	d0,($da201a)	; HD drive/unit register (A1200)
+	rts
+a4000c:	move.b	d0,($dd203a)	; HD drive/unit register (A4000)
+	rts
+elsatc:
+;	move.b	d0,($eb8efc)	; HD drive/unit register (ELSAT) ????
+	rts
+	end

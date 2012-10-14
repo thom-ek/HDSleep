@@ -1,0 +1,15 @@
+Short:    Turns your hard drives motor off. v1.5.
+Uploader: thom@union.org.pl (Tomasz Muszynski)
+Author:   thom@union.org.pl (Tomasz Muszynski)
+Type:     disk/misc
+
+This simple commodity turns your hard drive motor off if not used for a given
+period  of  time. Something like screen blanker, but for harddisks. You may
+know  what  it is, because this is BIOS feature of all new PC motherboards.
+Works  only  with  A1200  and  A4000  with  IDE  hard  drive(s). A600 isn't
+supported yet :-( maybe later...
+
+Changes in v1.5:
+     - Now properly recognizes iorequests from variuos units. Master unit resets
+       only master counter and slave unit only slave counter.
+     - Now works with new scsi.device from AI.

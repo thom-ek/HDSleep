@@ -1,0 +1,168 @@
+                               HDSleep v1.5
+                               ============
+
+                                    by
+                       Tomasz Muszynski (THOM/UNION)
+
+                         e-mail: thom@union.waw.pl
+
+Disclaimer
+==========
+
+THIS PROGRAM IS FREELY DISTRIBUTABLE. USE IT AT YOUR OWN RISK. THERE IS NO
+WARRANTY FOR RELIABLE FUNCTIONING OF THIS PROGRAM.
+
+Introduction
+============
+
+  This utility turns the motor of your HD off if it isn't used for given period
+of time. To install, copy HDSleep file to the WBStartup drawer on your hard
+disk. Program installs itself as a commodity. There is also hotkey available for
+turning off motor immediately. Any access to your hard disk turns the motor on
+again. If you execute this commodity again it will deactivate itself. Of course
+you can use Exchange for activating/deactivating HDSleep.
+
+  I have tested it on:
+Amiga 1200 + Viper 68030 turbo card and IDE 420MB Caviar 2420 hard drive,
+Amiga 1200 + Blizzard III 68030 turbo card and IDE 540MB Caviar hard drive,
+Amiga 1200 + Blizzard III 68030 turbo card and IDE 1.2GB Caviar hard drive,
+Amiga 1200 + Blizzard II 68030 turbo card and IDE 420MB Conner hard drive,
+Amiga 1200 + Blizzard III and 1.2GB Seagate hard drive,
+Amiga 1200 + FastRAM and IDE 420MB Conner hard drive,
+Amiga 4000 + IDE 850MB Caviar hard drive,
+Amiga 4000 + IDE 1.2GB Conner hard drive,
+and many other...
+Program also has been tested with Enforcer.
+
+  HDSleep does not work with Quantum (45MB) hard drives installed in A1200
+with FastRAM, but I hope you should not have any problems with newer
+drives.
+
+Important
+=========
+
+If you encounter problems with resetting sleep timer and putting to sleep
+your hard disk, insert the line below in startup-sequence before IPrefs - it
+should work properly.
+...
+Run >NIL: HDSleep <parameters>
+C:IPrefs
+...
+
+Requirements
+============
+
+  This program works only on A1200, A4000 and CD32 ProModule, because it
+uses low level access to not documented IDE bus registers (although it
+sends standard ATA command this way, so you shouldn't have any problems
+with different drives which have implemented full set of ATA commands).
+Also be sure you have both commodities.library and icon.library installed.
+There will be no version for scsi units.
+
+Parameters
+==========
+
+Parameter may be included as Tool Types in the icon or in the command line, if
+you use it from Shell.
+
+  CX_PRIORITY=<0>        - hotkey priority.
+  CX_POPKEY=<ctrl alt h> - hotkey for opening window.
+  CX_POPUP=<YES>         - opens window at start.
+  HDSLEEPKEY=<control h> - hotkey.
+  MASTERTIME=<360>       - turn off time since last access to Master HD
+                           (in seconds), 0 means no turning off.
+  SLAVETIME=<360>        - turn off time since last access to Slave HD
+                           (in seconds), 0 means no turning off.
+  WARNING=<NO>           - warns you about turning off of your HD.  A window is
+                           opened on a default public screen.
+  WARNINGTIMEOUT=<5>     - time when you will be warned before HD will go off.
+  LOGFILE=<filename>     - the file name of a log file.
+  A4000=<NO>             - the flag required for A4000. All A4000 owners should
+                           use it for correct switching off their HDs.
+  ELSAT=<NO>             - the flag required for CD32 ProModule. All CD32 owners
+                           should use it for correct switching off their HDs.
+
+Window
+======
+
+  Sleep - Sleeps HD immediately and closes window.
+  Abort - Resets timer and closes window.
+  Quit  - Quits the program.
+
+Menus
+=====
+
+  Sleep - Sleeps HD immediately and closes window.
+  Abort - Resets timer and closes window.
+  About - Displays information about the program and its version.
+  Hide  - Hides the program and closes window.
+  Quit  - Quits the program.
+
+Bugs
+====
+
+  One user of HDSleep reported me bug when working with AmiFileSafePro v15.9.
+When disk was switched off RigidDiskBlock was cleared.  Better before running
+HDSleep with AFS or PFS remember your RDB.  If you don't experience any problems
+with AFS or PFS let me know.
+
+History
+=======
+
+v1.0 (xx/05/95) (released on AmiNet)
+     - First release.
+
+v1.1 (19/09/95) (released on AmiNet)
+     - Removed bug with command line handling.
+     - Removed bug in removing HDSleep from memory via second run.
+     - Now supports second HD unit.
+     - Optimized code.
+     - Added new options (WARNING, WARNINGTIMEOUT) and information window.
+
+v1.2 (21/4/96) (released on AmiNet) (re-upload)
+     - Removed bug with WARNING argument when running from Shell
+       (always was switched on).
+     - Removed bug with checking broker errors.
+     - Added log file - code is two times longer, because
+       SAS/C time function is very long :-( I'll try to fix it in next version.
+     - Now works with A4000.
+
+1.3 (4/8/96) (released on AmiNet)
+     - Before opening hdsleep window frontmost screen is remembered. Closing
+       hdsleep window, brings remembered screen to front.
+     - Small bug fix.
+
+1.4 (29/11/96) (released on AmiNet)
+     - Now works with CD32 ProModule.
+     - CTRL D now puts to sleep all harddrives.
+
+1.5 (19/06/98) (released on AmiNet)
+     - Now properly recognizes iorequests from variuos units. Master unit resets
+       only master counter and slave unit only slave counter.
+     - Now works with new scsi.device from AI.
+
+Credits
+=======
+
+Detron - for giving me addresses of registers in A4000.
+PP/Union - for CD32 HD registers
+Kasper B. Graversen - for a great suggestion
+Tomi Blinnikka - for important bug report
+Kamil Iskra - for reporting me a lot of bugs (bugs are my profession :-).
+Many Amiga fans - for bug reports
+
+Contact
+=======
+
+mailto:thom@union.waw.pl
+http://thom.union.waw.pl
+
+
+
+
+So, at last I can leave my computer working for night and sleep in silence!!!
+
+=============================================================================
+
+                                          ¶ ¶ ¶\¶ ¶ /\ ¶\¶
+                                          |_| | | | \/ | |
